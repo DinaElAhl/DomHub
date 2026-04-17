@@ -3,475 +3,727 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DomHub - Find &amp; Register Your Perfect Domain</title>
+<title>DomHub - Find & Register Your Perfect Domain</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--green:#22c55e;--blue:#58a6ff;--red:#f85149;--orange:#f97316;--purple:#a371f7;--grad:linear-gradient(135deg,#1e3a5f,#0f2942)}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;overflow-x:hidden}
 a{color:var(--blue);text-decoration:none}
-nav{display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;background:rgba(13,17,23,.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
-.logo{display:flex;align-items:center;gap:.5rem;font-size:1.25rem;font-weight:700;color:var(--text);cursor:pointer}
-.logo-icon{width:32px;height:32px;background:var(--grad);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:64px;background:rgba(13,17,23,.97);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:300;backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:.5rem;font-size:1.25rem;font-weight:800;color:var(--text);cursor:pointer;transition:opacity .2s}.logo:hover{opacity:.85}
+.logo-icon{width:34px;height:34px;background:var(--grad);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(34,197,94,.3)}
 .nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{color:var(--muted);font-size:.9rem;transition:color .2s}.nav-links a:hover{color:var(--text)}
+.nav-links a{color:var(--muted);font-size:.9rem;font-weight:500;transition:color .2s;cursor:pointer;padding:.25rem 0;border-bottom:2px solid transparent}.nav-links a:hover{color:var(--text);border-bottom-color:var(--green)}
 .nav-btns{display:flex;gap:.75rem}
-.btn{padding:.5rem 1rem;border-radius:6px;font-size:.875rem;font-weight:500;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text);transition:all .2s}
-.btn:hover{background:var(--surface)}
-.btn-primary{background:var(--green);border-color:var(--green);color:#000}.btn-primary:hover{background:#16a34a;border-color:#16a34a}
-.hero{text-align:center;padding:5rem 2rem 3rem;background:var(--grad);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(34,197,94,.15),transparent 70%)}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem;line-height:1.2}
-.hero h1 span{color:var(--green)}
-.hero p{color:var(--muted);font-size:1.1rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto}
-.search-box{display:flex;max-width:600px;margin:0 auto 2rem;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4)}
-.search-box input{flex:1;padding:1rem 1.25rem;background:transparent;border:none;color:var(--text);font-size:1rem;outline:none}
-.search-box input::placeholder{color:var(--muted)}
-.search-box button{padding:1rem 1.5rem;background:var(--green);border:none;color:#000;font-weight:600;cursor:pointer;transition:background .2s;white-space:nowrap}
-.search-box button:hover{background:#16a34a}
-.tabs{display:flex;max-width:600px;margin:0 auto 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden}
-.tab{flex:1;padding:.6rem 1rem;background:transparent;border:none;color:var(--muted);font-size:.875rem;cursor:pointer;transition:all .2s}
-.tab.on{background:var(--bg);color:var(--text);font-weight:600}
-.stats{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap;padding:1.5rem 2rem;border-bottom:1px solid var(--border);background:var(--surface)}
-.stat{text-align:center}.stat-num{font-size:1.5rem;font-weight:700;color:var(--green)}
-.stat-label{font-size:.75rem;color:var(--muted);margin-top:.25rem}
-#ra{padding:2rem;max-width:960px;margin:0 auto;display:none}
-.rl{font-size:1.1rem;font-weight:600;margin-bottom:1.25rem;color:var(--muted)}
-.dcard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem;display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:1rem;margin-bottom:.75rem;transition:border-color .2s;position:relative}
-.dcard:hover{border-color:var(--blue)}
-.dcard.pop{border-color:var(--green)}
-.pop-badge{position:absolute;top:-10px;left:1rem;background:var(--green);color:#000;font-size:.65rem;font-weight:700;padding:.2rem .6rem;border-radius:20px}
-.dname{font-size:1.1rem;font-weight:600}.dtld{color:var(--green)}
-.dtag{display:inline-block;font-size:.7rem;padding:.15rem .5rem;border-radius:4px;font-weight:600}
-.tag-av{background:rgba(34,197,94,.15);color:var(--green)}
-.tag-tk{background:rgba(248,81,73,.15);color:var(--red)}
-.dprice{font-size:1.1rem;font-weight:700;text-align:right}
-.drenew{font-size:.7rem;color:var(--muted);text-align:right}
-.nc-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;background:linear-gradient(135deg,#f97316,#ef4444);border:none;border-radius:7px;color:#fff;font-weight:700;cursor:pointer;font-size:.85rem;text-decoration:none;transition:all .2s;white-space:nowrap}
-.nc-btn:hover{opacity:.88;transform:translateY(-1px);color:#fff}
-.nc-btn-disabled{padding:.55rem 1.1rem;background:var(--border);border:none;border-radius:7px;color:var(--muted);font-size:.85rem;cursor:not-allowed}
-.nc-badge{font-size:.6rem;font-weight:700;color:var(--orange);background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);border-radius:4px;padding:.1rem .35rem}
-.gen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem}
-.gcard{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;cursor:pointer;transition:all .2s;text-decoration:none;display:block}
-.gcard:hover{border-color:var(--orange);transform:translateY(-2px)}
-.gname{font-weight:600;font-size:.95rem;color:var(--text)}.gtld{color:var(--green)}
-.gprice{font-size:.8rem;color:var(--muted);margin-top:.3rem}
-.gnc{font-size:.65rem;color:var(--orange);margin-top:.3rem}
-.features{padding:4rem 2rem;max-width:1100px;margin:0 auto}
-.section-title{text-align:center;font-size:1.75rem;font-weight:700;margin-bottom:.5rem}
-.section-sub{text-align:center;color:var(--muted);margin-bottom:3rem}
+.btn{padding:.5rem 1.1rem;border-radius:7px;font-size:.875rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--text);transition:all .2s}.btn:hover{background:var(--surface);border-color:var(--muted)}
+.btn-primary{background:var(--green);border-color:var(--green);color:#000;box-shadow:0 2px 8px rgba(34,197,94,.3)}.btn-primary:hover{background:#16a34a;border-color:#16a34a;transform:translateY(-1px)}
+
+/* HERO */
+.hero{text-align:center;padding:5.5rem 2rem 3.5rem;background:var(--grad);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% -20%,rgba(34,197,94,.18),transparent 65%)}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(34,197,94,.4),transparent)}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:.35rem 1rem;font-size:.78rem;font-weight:700;color:var(--green);margin-bottom:1.75rem;animation:fadeInDown .6s ease}
+.hero h1{font-size:clamp(2.2rem,5.5vw,3.75rem);font-weight:800;margin-bottom:1rem;line-height:1.15;animation:fadeInUp .7s ease}
+.hero h1 .hl{color:var(--green)}.hero h1 .hl2{color:var(--orange)}
+.hero-sub{color:var(--muted);font-size:1.05rem;margin-bottom:2.5rem;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.65;animation:fadeInUp .8s ease}
+.search-wrap{max-width:620px;margin:0 auto 1.75rem;animation:fadeInUp .9s ease}
+.search-box{display:flex;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.5);transition:border-color .2s}.search-box:focus-within{border-color:var(--green);box-shadow:0 8px 40px rgba(34,197,94,.15)}
+.search-box input{flex:1;padding:1.1rem 1.4rem;background:transparent;border:none;color:var(--text);font-size:1rem;outline:none}.search-box input::placeholder{color:var(--muted)}
+.search-box button{padding:1.1rem 1.75rem;background:var(--green);border:none;color:#000;font-weight:700;cursor:pointer;font-size:.95rem;transition:background .2s;white-space:nowrap}.search-box button:hover{background:#16a34a}
+.mode-tabs{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;overflow:hidden;margin:0 auto 1.5rem;animation:fadeInUp 1s ease}
+.tab{padding:.55rem 1.25rem;background:transparent;border:none;color:var(--muted);font-size:.875rem;font-weight:500;cursor:pointer;transition:all .2s}.tab.on{background:rgba(34,197,94,.15);color:var(--green);font-weight:700}
+.hero-trust{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted);animation:fadeInUp 1.1s ease}
+.hero-trust span{display:flex;align-items:center;gap:.3rem}.hero-trust span::before{content:'✓';color:var(--green);font-weight:700}
+
+/* STATS */
+.stats{display:flex;justify-content:center;gap:0;flex-wrap:wrap;background:var(--surface);border-bottom:1px solid var(--border)}
+.stat{flex:1;min-width:120px;text-align:center;padding:1.5rem 1rem;border-right:1px solid var(--border);transition:background .2s;cursor:default}.stat:last-child{border-right:none}.stat:hover{background:rgba(34,197,94,.04)}
+.stat-num{font-size:1.6rem;font-weight:800;color:var(--green);display:block}.stat-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.2rem}
+
+/* RESULTS */
+#ra{padding:2rem;max-width:960px;margin:0 auto;display:none;animation:fadeIn .4s ease}
+.rl{font-size:1rem;font-weight:600;margin-bottom:1.25rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}.rl::before{content:'';display:inline-block;width:4px;height:1em;background:var(--green);border-radius:2px}
+.dcard{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1.25rem;margin-bottom:.75rem;transition:all .2s;position:relative}.dcard:hover{border-color:var(--blue);transform:translateX(3px);box-shadow:0 4px 20px rgba(0,0,0,.3)}.dcard.pop{border-color:var(--green);box-shadow:0 0 0 1px rgba(34,197,94,.2)}
+.pop-badge{position:absolute;top:-10px;left:1.25rem;background:var(--green);color:#000;font-size:.62rem;font-weight:800;padding:.2rem .65rem;border-radius:20px;letter-spacing:.03em}
+.dname-wrap{flex:1}.dname{font-size:1.05rem;font-weight:700}.dtld{color:var(--green)}
+.dtag{display:inline-block;font-size:.68rem;padding:.15rem .5rem;border-radius:5px;font-weight:700;margin-top:.25rem}
+.tag-av{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+.tag-tk{background:rgba(248,81,73,.1);color:var(--red);border:1px solid rgba(248,81,73,.2)}
+.dprice{font-size:1.15rem;font-weight:800;text-align:right;white-space:nowrap}.drenew{font-size:.7rem;color:var(--muted);margin-top:.1rem}
+.nc-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;background:linear-gradient(135deg,#f97316,#ef4444);border:none;border-radius:8px;color:#fff;font-weight:700;cursor:pointer;font-size:.83rem;text-decoration:none;transition:all .22s;white-space:nowrap}.nc-btn:hover{opacity:.88;transform:translateY(-2px);box-shadow:0 4px 15px rgba(239,68,68,.35);color:#fff}
+.nc-btn-dis{padding:.6rem 1.2rem;background:var(--border);border:none;border-radius:8px;color:var(--muted);font-size:.83rem;cursor:not-allowed}
+
+/* GEN GRID */
+.gen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:.85rem}
+.gcard{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:1.1rem;cursor:pointer;transition:all .22s;display:block;text-decoration:none}.gcard:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,.3)}
+.gname{font-weight:700;font-size:.95rem;color:var(--text)}.gtld{color:var(--green)}
+.gprice{font-size:.78rem;color:var(--muted);margin-top:.3rem}.gnc{font-size:.65rem;color:var(--orange);margin-top:.35rem;font-weight:600}
+
+/* FEATURES */
+.features{padding:5rem 2rem;max-width:1100px;margin:0 auto}
+.section-header{text-align:center;margin-bottom:3rem}
+.section-title{font-size:1.85rem;font-weight:800;margin-bottom:.6rem}
+.section-sub{color:var(--muted);font-size:1rem;max-width:500px;margin:0 auto;line-height:1.65}
 .feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem}
-.feat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
-.feat-icon{font-size:2rem;margin-bottom:1rem}
-.feat h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
-.feat p{font-size:.875rem;color:var(--muted);line-height:1.5}
-.pricing{padding:4rem 2rem;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.pricing-inner{max-width:900px;margin:0 auto}
-.pricing-table{width:100%;border-collapse:collapse;margin-top:1.5rem}
-.pricing-table th{text-align:left;padding:.75rem 1rem;font-size:.8rem;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border)}
-.pricing-table td{padding:.875rem 1rem;border-bottom:1px solid var(--border);font-size:.9rem}
+.feat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.85rem;transition:all .25s;cursor:pointer;position:relative;overflow:hidden}.feat::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(34,197,94,.04),transparent);opacity:0;transition:opacity .25s}.feat:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.25)}.feat:hover::before{opacity:1}
+.feat-icon{font-size:2.2rem;margin-bottom:1rem;display:block}.feat h3{font-size:1rem;font-weight:700;margin-bottom:.5rem}.feat p{font-size:.875rem;color:var(--muted);line-height:1.6}
+.feat-link{display:inline-flex;align-items:center;gap:.3rem;margin-top:.85rem;font-size:.8rem;color:var(--green);font-weight:600;opacity:0;transform:translateY(4px);transition:all .2s}.feat:hover .feat-link{opacity:1;transform:translateY(0)}
+
+/* PRICING */
+.pricing{padding:5rem 2rem;background:rgba(22,27,34,.6);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.pricing-inner{max-width:920px;margin:0 auto}
+.pricing-table{width:100%;border-collapse:collapse;margin-top:1.75rem}
+.pricing-table th{text-align:left;padding:.85rem 1rem;font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--border)}
+.pricing-table td{padding:.95rem 1rem;border-bottom:1px solid rgba(48,54,61,.5);font-size:.9rem;transition:background .15s}
+.pricing-table tr:hover td{background:rgba(34,197,94,.04)}
 .pricing-table tr:last-child td{border-bottom:none}
-.tld-name{font-weight:600;font-size:1rem}
-.badge{display:inline-block;font-size:.65rem;font-weight:700;padding:.15rem .4rem;border-radius:4px;margin-left:.4rem;vertical-align:middle}
-.badge-pop{background:rgba(34,197,94,.2);color:var(--green)}
-.badge-hot{background:rgba(248,81,73,.2);color:var(--red)}
-.badge-trend{background:rgba(88,166,255,.2);color:var(--blue)}
-.badge-new{background:rgba(163,113,247,.2);color:var(--purple)}
-.free-tag{color:var(--green);font-size:.8rem;font-weight:600}
-.nc-register-link{display:inline-flex;align-items:center;gap:.3rem;font-size:.8rem;color:var(--orange);font-weight:600;text-decoration:none}
-.nc-register-link:hover{color:#fb923c}
-.cta{text-align:center;padding:5rem 2rem;background:var(--grad);position:relative;overflow:hidden}
-.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 100%,rgba(34,197,94,.1),transparent 70%)}
-.cta h2{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;margin-bottom:1rem}
-.cta p{color:var(--muted);margin-bottom:2rem}
-footer{background:var(--surface);border-top:1px solid var(--border);padding:3rem 2rem 2rem}
+.tld-name{font-weight:700;font-size:1rem}
+.badge{display:inline-block;font-size:.62rem;font-weight:800;padding:.12rem .45rem;border-radius:5px;margin-left:.4rem;vertical-align:middle;letter-spacing:.03em}
+.badge-pop{background:rgba(34,197,94,.2);color:var(--green)}.badge-hot{background:rgba(248,81,73,.2);color:var(--red)}.badge-trend{background:rgba(88,166,255,.2);color:var(--blue)}.badge-new{background:rgba(163,113,247,.2);color:var(--purple)}
+.free-tag{color:var(--green);font-size:.8rem;font-weight:700}
+.reg-link{display:inline-flex;align-items:center;gap:.25rem;font-size:.8rem;color:var(--orange);font-weight:700;text-decoration:none;transition:color .2s}.reg-link:hover{color:#fb923c}
+
+/* CTA */
+.cta-section{text-align:center;padding:5.5rem 2rem;background:var(--grad);position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 110%,rgba(34,197,94,.12),transparent 65%)}
+.cta-section h2{font-size:clamp(1.6rem,3.5vw,2.75rem);font-weight:800;margin-bottom:1rem}
+.cta-section p{color:var(--muted);margin-bottom:2.25rem;font-size:1.05rem}
+
+/* BLOG PANEL */
+.panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:400;align-items:flex-start;justify-content:center;padding:4rem 1rem;overflow-y:auto;backdrop-filter:blur(5px)}.panel-overlay.open{display:flex}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:100%;max-width:700px;padding:2.5rem;position:relative;animation:slideUp .3s ease}
+.panel h2{font-size:1.4rem;font-weight:800;margin-bottom:.5rem}
+.panel-sub{color:var(--muted);font-size:.9rem;margin-bottom:1.75rem;line-height:1.6}
+.panel-close{position:absolute;top:1.25rem;right:1.25rem;background:transparent;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s}.panel-close:hover{background:var(--border);color:var(--text)}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+.blog-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem;transition:border-color .2s;cursor:pointer}.blog-card:hover{border-color:var(--blue)}
+.blog-tag{display:inline-block;font-size:.65rem;font-weight:700;padding:.15rem .5rem;border-radius:4px;background:rgba(88,166,255,.12);color:var(--blue);margin-bottom:.6rem;text-transform:uppercase}
+.blog-card h3{font-size:.95rem;font-weight:700;margin-bottom:.4rem;line-height:1.4}
+.blog-card p{font-size:.8rem;color:var(--muted);line-height:1.5}
+.blog-meta{font-size:.72rem;color:var(--muted);margin-top:.6rem;display:flex;gap:.75rem}
+.faq-item{border-bottom:1px solid var(--border);padding:.85rem 0}
+.faq-q{font-weight:600;font-size:.93rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .2s}.faq-q:hover{color:var(--green)}
+.faq-a{font-size:.85rem;color:var(--muted);line-height:1.65;padding-top:.6rem;display:none}.faq-item.open .faq-a{display:block}.faq-item.open .faq-q{color:var(--green)}
+.faq-icon{font-size:.9rem;transition:transform .2s}.faq-item.open .faq-icon{transform:rotate(45deg)}
+
+/* FOOTER */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:3.5rem 2rem 2rem}
 .footer-inner{max-width:1100px;margin:0 auto}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem;margin-bottom:2rem}
-.footer-brand p{color:var(--muted);font-size:.875rem;margin-top:.75rem;max-width:250px;line-height:1.6}
-.footer-col h4{font-size:.875rem;font-weight:600;margin-bottom:1rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.footer-col ul{list-style:none}
-.footer-col li{margin-bottom:.5rem}
-.footer-col a{color:var(--muted);font-size:.875rem;cursor:pointer;transition:color .2s}.footer-col a:hover{color:var(--text)}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2.5rem}
+@media(max-width:768px){.footer-top{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}}
+.footer-brand p{color:var(--muted);font-size:.875rem;margin-top:.85rem;max-width:260px;line-height:1.65}
+.footer-col h4{font-size:.78rem;font-weight:700;margin-bottom:1rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.footer-col ul{list-style:none}.footer-col li{margin-bottom:.6rem}
+.footer-col a{color:var(--muted);font-size:.875rem;cursor:pointer;transition:color .2s;display:inline-flex;align-items:center;gap:.25rem}.footer-col a:hover{color:var(--text)}
 .footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.footer-bottom p{color:var(--muted);font-size:.8rem}
-.affiliate-bar{background:rgba(249,115,22,.08);border-top:1px solid rgba(249,115,22,.2);padding:.6rem 2rem;text-align:center;font-size:.75rem;color:var(--muted)}
-.affiliate-bar a{color:var(--orange)}
-#cb2{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--orange);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;transform:translateY(100%);transition:transform .3s;z-index:200}
+.footer-bottom p{color:var(--muted);font-size:.78rem}
+.aff-bar{background:rgba(249,115,22,.07);border-top:1px solid rgba(249,115,22,.18);padding:.65rem 2rem;text-align:center;font-size:.75rem;color:var(--muted)}
+.aff-bar a{color:var(--orange)}
+
+/* CART */
+#cb2{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:2px solid var(--orange);padding:1rem 2rem;display:flex;align-items:center;gap:1rem;transform:translateY(100%);transition:transform .3s;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
 #cb2.show{transform:translateY(0)}
-#cn{flex:1;font-size:.9rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#co{background:var(--orange);border:none;color:#fff;padding:.6rem 1.5rem;border-radius:6px;font-weight:700;cursor:pointer}
-#clr{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.6rem 1rem;border-radius:6px;cursor:pointer;font-size:.875rem}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.5rem;width:100%;max-width:420px;position:relative}
-.modal h2{font-size:1.4rem;font-weight:700;margin-bottom:.4rem;text-align:center}
-.modal-sub{text-align:center;color:var(--muted);font-size:.875rem;margin-bottom:1.5rem}
-.modal-tabs{display:flex;background:var(--bg);border-radius:8px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--border)}
-.modal-tab{flex:1;padding:.6rem;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.875rem;transition:all .2s}
-.modal-tab.on{background:var(--surface);color:var(--text);font-weight:600}
+#cn{flex:1;font-size:.875rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#co{background:var(--orange);border:none;color:#fff;padding:.65rem 1.6rem;border-radius:8px;font-weight:700;cursor:pointer;transition:all .2s}.#co:hover{background:#ea6c0a}
+#clr{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.65rem 1rem;border-radius:8px;cursor:pointer;font-size:.875rem;transition:all .2s}.#clr:hover{border-color:var(--red);color:var(--red)}
+
+/* AUTH MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px)}.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2.5rem;width:100%;max-width:430px;position:relative;animation:slideUp .3s ease;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.modal h2{font-size:1.4rem;font-weight:800;margin-bottom:.4rem;text-align:center}
+.modal-sub{text-align:center;color:var(--muted);font-size:.875rem;margin-bottom:1.5rem;line-height:1.5}
+.modal-tabs{display:flex;background:var(--bg);border-radius:9px;overflow:hidden;margin-bottom:1.25rem;border:1px solid var(--border)}
+.modal-tab{flex:1;padding:.65rem;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.875rem;font-weight:500;transition:all .2s}.modal-tab.on{background:var(--surface);color:var(--text);font-weight:700}
 .form-group{margin-bottom:1rem}
-.form-group label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.4rem;font-weight:500}
-.form-group input{width:100%;padding:.75rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s}
-.form-group input:focus{border-color:var(--green)}
-.modal-submit{width:100%;padding:.875rem;background:var(--green);border:none;border-radius:8px;color:#000;font-weight:700;font-size:1rem;cursor:pointer;margin-top:.5rem;transition:background .2s}
-.modal-submit:hover{background:#16a34a}
-.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;width:32px;height:32px;border-radius:6px;line-height:32px;text-align:center}
-.modal-close:hover{background:var(--border);color:var(--text)}
-.modal-footer{text-align:center;margin-top:1rem;font-size:.8rem;color:var(--muted)}
-.modal-footer a{color:var(--green);cursor:pointer}
-.divider{display:flex;align-items:center;gap:.75rem;margin:1rem 0;color:var(--muted);font-size:.8rem}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
-.social-btns{display:flex;gap:.75rem}
-.social-btn{flex:1;padding:.6rem;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;transition:background .2s}
-.social-btn:hover{background:var(--border)}
-.toast{position:fixed;top:80px;right:1.5rem;padding:.75rem 1.5rem;border-radius:8px;font-weight:600;font-size:.875rem;z-index:600;transform:translateX(160%);transition:transform .35s;box-shadow:0 4px 20px rgba(0,0,0,.4);max-width:320px}
-.toast.show{transform:translateX(0)}
+.form-group label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-weight:600}
+.form-group input{width:100%;padding:.8rem 1rem;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s}.form-group input:focus{border-color:var(--green)}
+.modal-submit{width:100%;padding:.9rem;background:var(--green);border:none;border-radius:9px;color:#000;font-weight:800;font-size:1rem;cursor:pointer;margin-top:.5rem;transition:all .2s}.modal-submit:hover{background:#16a34a;transform:translateY(-1px)}
+.modal-close{position:absolute;top:1.1rem;right:1.1rem;background:transparent;border:none;color:var(--muted);font-size:1.35rem;cursor:pointer;width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:all .2s}.modal-close:hover{background:var(--border);color:var(--text)}
+.modal-footer-txt{text-align:center;margin-top:1rem;font-size:.8rem;color:var(--muted)}
+.modal-footer-txt a{color:var(--green);cursor:pointer;font-weight:600}
+.divider{display:flex;align-items:center;gap:.75rem;margin:1rem 0;color:var(--muted);font-size:.78rem}.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.social-btns{display:flex;gap:.75rem;margin-bottom:.75rem}
+.social-btn{flex:1;padding:.65rem;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--text);font-size:.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.4rem;font-weight:500;transition:all .2s}.social-btn:hover{background:var(--border);transform:translateY(-1px)}
+.forgot-link{float:right;color:var(--green);font-size:.75rem;cursor:pointer;font-weight:600}
+.forgot-link:hover{text-decoration:underline}
+
+/* CHECKOUT MODAL */
+.checkout-items{max-height:220px;overflow-y:auto;margin-bottom:1.25rem}
+.checkout-item{display:flex;justify-content:space-between;align-items:center;padding:.65rem .75rem;background:var(--bg);border-radius:8px;margin-bottom:.5rem;font-size:.9rem}
+.checkout-item-domain{font-weight:700}
+.checkout-item-price{color:var(--green);font-weight:700}
+.checkout-remove{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:.1rem .4rem;border-radius:5px;transition:color .2s}.checkout-remove:hover{color:var(--red)}
+.checkout-total{display:flex;justify-content:space-between;padding:.85rem;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2);border-radius:9px;font-weight:800;margin-bottom:1rem}
+.checkout-total-price{color:var(--green);font-size:1.1rem}
+.nc-checkout-btn{width:100%;padding:.9rem;background:linear-gradient(135deg,#f97316,#ef4444);border:none;border-radius:9px;color:#fff;font-weight:800;font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:.5rem}.nc-checkout-btn:hover{opacity:.9;transform:translateY(-1px)}
+.checkout-note{font-size:.72rem;color:var(--muted);text-align:center}
+
+/* TOAST */
+.toast{position:fixed;top:80px;right:1.5rem;padding:.8rem 1.5rem;border-radius:10px;font-weight:700;font-size:.875rem;z-index:999;transform:translateX(160%);transition:transform .35s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 8px 30px rgba(0,0,0,.4);max-width:340px;display:flex;align-items:center;gap:.5rem}.toast.show{transform:translateX(0)}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* DISCLOSURE */
+.disc{background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.18);border-radius:10px;padding:.85rem 1.1rem;margin-top:1.75rem;font-size:.74rem;color:var(--muted);text-align:center;line-height:1.6}
+.disc a{color:var(--orange)}
 </style>
 </head>
 <body>
-<!-- Auth Modal -->
+<!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
-  <div class="modal">
-    <button class="modal-close" id="modalClose">&times;</button>
-    <div style="text-align:center;margin-bottom:1rem"><div class="logo-icon" style="margin:0 auto;width:42px;height:42px;font-size:1.2rem">D</div></div>
-    <h2 id="modalTitle">Welcome back</h2>
-    <p class="modal-sub" id="modalSub">Sign in to manage your domains</p>
-    <div class="modal-tabs">
-      <button class="modal-tab on" id="tabSI" onclick="switchTab('signin')">Sign In</button>
-      <button class="modal-tab" id="tabSU" onclick="switchTab('signup')">Create Account</button>
-    </div>
-    <div class="social-btns" style="margin-bottom:.75rem">
-      <button class="social-btn" onclick="socialAuth('Google')"><svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Google</button>
-      <button class="social-btn" onclick="socialAuth('GitHub')"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</button>
-    </div>
-    <div class="divider">or continue with email</div>
-    <div id="siform">
-      <div class="form-group"><label>Email address</label><input type="email" id="siEmail" placeholder="you@example.com"></div>
-      <div class="form-group"><label style="display:flex;justify-content:space-between">Password <a onclick="forgotPw()" style="color:var(--green);font-size:.75rem">Forgot password?</a></label><input type="password" id="siPass" placeholder="••••••••"></div>
-      <button class="modal-submit" onclick="handleSignIn()">Sign In</button>
-    </div>
-    <div id="suform" style="display:none">
-      <div class="form-group"><label>Full name</label><input type="text" id="suName" placeholder="Jane Doe"></div>
-      <div class="form-group"><label>Email address</label><input type="email" id="suEmail" placeholder="you@example.com"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="suPass" placeholder="At least 8 characters"></div>
-      <button class="modal-submit" onclick="handleSignUp()">Create Free Account</button>
-    </div>
-    <div class="modal-footer" id="modalFooter">New to DomHub? <a onclick="switchTab('signup')">Create an account</a></div>
+<div class="modal">
+  <button class="modal-close" id="modalClose">&times;</button>
+  <div style="text-align:center;margin-bottom:1.1rem"><div class="logo-icon" style="margin:0 auto;width:44px;height:44px;font-size:1.3rem">D</div></div>
+  <h2 id="mTitle">Welcome back</h2>
+  <p class="modal-sub" id="mSub">Sign in to your DomHub account</p>
+  <div class="modal-tabs"><button class="modal-tab on" id="mTabSI" onclick="mSwitch('in')">Sign In</button><button class="modal-tab" id="mTabSU" onclick="mSwitch('up')">Create Account</button></div>
+  <div class="social-btns">
+    <button class="social-btn" onclick="mSocial('Google')"><svg width="15" height="15" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Google</button>
+    <button class="social-btn" onclick="mSocial('GitHub')"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.44 9.8 8.21 11.39.6.11.82-.26.82-.57v-2.24c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.21.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.49 1 .11-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 013-.4c1.02.005 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.69.83.57C20.57 21.8 24 17.31 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</button>
   </div>
-</div>
+  <div class="divider">or continue with email</div>
+  <div id="siForm">
+    <div class="form-group"><label>Email address</label><input type="email" id="siEmail" placeholder="you@example.com" autocomplete="email"></div>
+    <div class="form-group"><label>Password <span class="forgot-link" onclick="mForgot()">Forgot password?</span></label><input type="password" id="siPass" placeholder="••••••••" autocomplete="current-password"></div>
+    <button class="modal-submit" onclick="mSignIn()">Sign In &rarr;</button>
+  </div>
+  <div id="suForm" style="display:none">
+    <div class="form-group"><label>Full name</label><input type="text" id="suName" placeholder="Jane Doe"></div>
+    <div class="form-group"><label>Email address</label><input type="email" id="suEmail" placeholder="you@example.com" autocomplete="email"></div>
+    <div class="form-group"><label>Password</label><input type="password" id="suPass" placeholder="At least 8 characters" autocomplete="new-password"></div>
+    <button class="modal-submit" onclick="mSignUp()">Create Free Account &rarr;</button>
+  </div>
+  <div class="modal-footer-txt" id="mFoot">New to DomHub? <a onclick="mSwitch('up')">Create an account</a></div>
+</div></div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="coModal">
+<div class="modal">
+  <button class="modal-close" onclick="closeModal('coModal')">&times;</button>
+  <h2 style="margin-bottom:.4rem">&#128722; Your Cart</h2>
+  <p class="modal-sub">Review your domains and register via Namecheap</p>
+  <div class="checkout-items" id="coItems"></div>
+  <div class="checkout-total"><span>Total per year</span><span class="checkout-total-price" id="coTotal">$0.00</span></div>
+  <button class="nc-checkout-btn" id="coNcBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Register All via Namecheap</button>
+  <p class="checkout-note">&#128279; Affiliate Disclosure: you'll be taken to Namecheap's secure checkout. DomHub may earn a small commission.</p>
+</div></div>
+
+<!-- BLOG PANEL -->
+<div class="panel-overlay" id="blogPanel">
+<div class="panel">
+  <button class="panel-close" onclick="closePanel('blogPanel')">&times;</button>
+  <h2>&#128214; Domain Resources & Blog</h2>
+  <p class="panel-sub">Everything you need to know about domain names, registration, and online identity.</p>
+  <div class="blog-grid">
+    <div class="blog-card" onclick="toast('Opening article...','#58a6ff')"><span class="blog-tag">Guide</span><h3>How to Choose the Perfect Domain Name</h3><p>Tips for picking a memorable, brandable domain that helps your business grow.</p><div class="blog-meta"><span>5 min read</span><span>Apr 2026</span></div></div>
+    <div class="blog-card" onclick="toast('Opening article...','#58a6ff')"><span class="blog-tag">TLD Guide</span><h3>.AI vs .com — Which is Right for Your Startup?</h3><p>A deep dive into trending TLDs and when to use them for maximum impact.</p><div class="blog-meta"><span>4 min read</span><span>Mar 2026</span></div></div>
+    <div class="blog-card" onclick="toast('Opening article...','#58a6ff')"><span class="blog-tag">Security</span><h3>Why WHOIS Privacy Matters More Than Ever</h3><p>Protect your personal information and reduce spam with free WHOIS privacy.</p><div class="blog-meta"><span>3 min read</span><span>Mar 2026</span></div></div>
+    <div class="blog-card" onclick="toast('Opening article...','#58a6ff')"><span class="blog-tag">Tips</span><h3>Domain Hacks: Creative Ways to Use TLDs</h3><p>From pizza.io to get.app — how to make your domain itself a statement.</p><div class="blog-meta"><span>4 min read</span><span>Feb 2026</span></div></div>
+    <div class="blog-card" onclick="toast('Opening article...','#58a6ff')"><span class="blog-tag">SEO</span><h3>Does Your Domain Name Affect SEO?</h3><p>The truth about keywords in domains and what Google really cares about.</p><div class="blog-meta"><span>6 min read</span><span>Feb 2026</span></div></div>
+    <div class="blog-card" onclick="toast('Opening article...','#58a6ff')"><span class="blog-tag">Business</span><h3>Protect Your Brand: Register Multiple TLDs</h3><p>Why smart businesses register .com, .net, and .io versions of their name.</p><div class="blog-meta"><span>3 min read</span><span>Jan 2026</span></div></div>
+  </div>
+</div></div>
+
+<!-- ABOUT PANEL -->
+<div class="panel-overlay" id="aboutPanel">
+<div class="panel">
+  <button class="panel-close" onclick="closePanel('aboutPanel')">&times;</button>
+  <h2>&#128640; About DomHub</h2>
+  <p class="panel-sub">DomHub is your all-in-one domain search and registration platform — powered by Namecheap's global infrastructure, built for everyone from solo creators to large enterprises.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem">
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem"><div style="font-size:1.75rem;font-weight:800;color:var(--green)">500+</div><div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">TLD Extensions available</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem"><div style="font-size:1.75rem;font-weight:800;color:var(--blue)">3.2M+</div><div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Domains registered</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem"><div style="font-size:1.75rem;font-weight:800;color:var(--orange)">180+</div><div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Countries served</div></div>
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem"><div style="font-size:1.75rem;font-weight:800;color:var(--purple)">24/7</div><div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Live support available</div></div>
+  </div>
+  <div style="margin-top:1.5rem;padding:1.25rem;background:var(--bg);border:1px solid var(--border);border-radius:10px">
+    <h3 style="font-size:.95rem;margin-bottom:.6rem">Our Mission</h3>
+    <p style="font-size:.85rem;color:var(--muted);line-height:1.7">We believe everyone deserves a great domain name. DomHub makes domain search fast, smart, and affordable — with AI-powered name generation, transparent pricing, and real registrations backed by Namecheap's 20+ years of expertise.</p>
+  </div>
+</div></div>
+
+<!-- SUPPORT PANEL -->
+<div class="panel-overlay" id="supportPanel">
+<div class="panel">
+  <button class="panel-close" onclick="closePanel('supportPanel')">&times;</button>
+  <h2>&#128101; Support Center</h2>
+  <p class="panel-sub">Find answers to common questions about domain registration, transfers, and management.</p>
+  <div id="faqList">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I register a domain? <span class="faq-icon">+</span></div><div class="faq-a">Search for your desired domain name above, then click "Register Now" on any available domain. You'll be taken to Namecheap's secure checkout where you can complete your purchase.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long does it take for a domain to go live? <span class="faq-icon">+</span></div><div class="faq-a">Most domains activate within minutes via Namecheap's instant activation system. DNS propagation typically takes 1–24 hours to fully propagate worldwide.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is WHOIS privacy really free? <span class="faq-icon">+</span></div><div class="faq-a">Yes! All domains registered via DomHub through Namecheap include free WHOIS privacy protection, keeping your personal information off the public WHOIS database.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I transfer my existing domain to DomHub? <span class="faq-icon">+</span></div><div class="faq-a">Absolutely. Use the Transfer option in the Domains menu. You'll need your domain's EPP/Auth code from your current registrar. The process takes 5–7 days.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What payment methods are accepted? <span class="faq-icon">+</span></div><div class="faq-a">Namecheap accepts Visa, Mastercard, American Express, PayPal, Bitcoin, and more. All payments are processed securely on Namecheap's PCI-compliant platform.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is the refund policy? <span class="faq-icon">+</span></div><div class="faq-a">Namecheap offers a refund within 5 days of registration for most domains. Some TLDs (like .io, .ai) may have different policies. Check Namecheap's refund policy for details.</div></div>
+  </div>
+  <div style="margin-top:1.5rem;text-align:center">
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:.85rem">Can't find your answer?</p>
+    <a href="https://www.namecheap.com/support/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:.4rem;background:var(--green);color:#000;padding:.7rem 1.5rem;border-radius:9px;font-weight:700;font-size:.9rem;text-decoration:none">&#128172; Contact Namecheap Support</a>
+  </div>
+</div></div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<!-- NAV -->
 <nav>
   <div class="logo" onclick="scrollTop()"><div class="logo-icon">D</div>DomHub</div>
   <ul class="nav-links">
-    <li><a href="#s" onclick="scrollTop();return false">Search</a></li>
-    <li><a href="#" onclick="setMode('gen');scrollTop();return false">Generator</a></li>
-    <li><a href="#f" onclick="document.getElementById('f').scrollIntoView({behavior:'smooth'});return false">Features</a></li>
-    <li><a href="#p" onclick="document.getElementById('p').scrollIntoView({behavior:'smooth'});return false">Pricing</a></li>
+    <li><a onclick="scrollTo('s')">Search</a></li>
+    <li><a onclick="setMode('gen');scrollTo('s')">Generator</a></li>
+    <li><a onclick="scrollTo('f')">Features</a></li>
+    <li><a onclick="scrollTo('p')">Pricing</a></li>
   </ul>
   <div class="nav-btns">
-    <button class="btn" onclick="openModal('signin')">Sign In</button>
+    <button class="btn" onclick="openModal('authModal','in')">Sign In</button>
     <button class="btn btn-primary" onclick="scrollSearch()">Get Started Free</button>
   </div>
 </nav>
 
-<section id="s" style="text-align:center;padding:5rem 2rem 3rem;background:var(--grad);position:relative;overflow:hidden">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(34,197,94,.15),transparent 70%)"></div>
-  <div style="position:relative">
-    <div style="display:inline-block;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:20px;padding:.3rem 1rem;font-size:.8rem;font-weight:600;color:var(--green);margin-bottom:1.5rem">&#127760; THE #1 DOMAIN REGISTRAR PLATFORM</div>
-    <h1 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:800;margin-bottom:1rem;line-height:1.2">Your Perfect Domain<br><span style="color:var(--green)">Starts <span style="color:#f97316">Right Here</span></span></h1>
-    <p style="color:var(--muted);font-size:1.1rem;margin-bottom:2.5rem;max-width:500px;margin-left:auto;margin-right:auto">Search, generate, and register domain names instantly. Powered by AI &mdash; backed by a global DNS network.</p>
-    <div style="max-width:600px;margin:0 auto 1.5rem">
-      <div class="search-box">
-        <input id="inp" type="text" placeholder="Search a domain or enter keywords...">
-        <button id="goBtn">Search Domain</button>
-      </div>
+<!-- HERO -->
+<section id="s">
+  <div class="hero">
+    <div class="hero-badge">&#127760; THE #1 DOMAIN REGISTRAR PLATFORM</div>
+    <h1>Your Perfect Domain<br><span class="hl">Starts</span> <span class="hl2">Right Here</span></h1>
+    <p class="hero-sub">Search, generate, and register domain names instantly. Powered by AI &mdash; backed by Namecheap&rsquo;s global infrastructure.</p>
+    <div class="search-wrap">
+      <div class="search-box"><input id="inp" type="text" placeholder="Search a domain (e.g. mybrand.com)..."><button id="goBtn">Search Domain</button></div>
     </div>
-    <div class="tabs" style="max-width:400px;margin:0 auto 1.5rem">
-      <button class="tab on" id="ts">&#128269; Domain Search</button>
-      <button class="tab" id="tg">&#127381; AI Name Generator</button>
+    <div class="mode-tabs"><button class="tab on" id="ts">&#128269; Domain Search</button><button class="tab" id="tg">&#129302; AI Name Generator</button></div>
+    <div class="hero-trust">
+      <span>Free SSL</span><span>Free WHOIS Privacy</span><span>24/7 Support</span><span>99.9% Uptime</span><span>Instant Activation</span>
     </div>
-    <p style="color:var(--muted);font-size:.8rem">&#10003; Free SSL &nbsp;&#10003; Free WHOIS Privacy &nbsp;&#10003; 24/7 Support &nbsp;&#10003; 99.9% Uptime</p>
   </div>
 </section>
 
+<!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-num">500+</div><div class="stat-label">TLD Extensions</div></div>
-  <div class="stat"><div class="stat-num">3.2M+</div><div class="stat-label">Domains Registered</div></div>
-  <div class="stat"><div class="stat-num">99.9%</div><div class="stat-label">Uptime SLA</div></div>
-  <div class="stat"><div class="stat-num">180+</div><div class="stat-label">Countries Served</div></div>
-  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Live Support</div></div>
+  <div class="stat reveal"><span class="stat-num" data-target="500">0</span><small class="stat-label">TLD Extensions</small></div>
+  <div class="stat reveal"><span class="stat-num" data-target="3200000" data-format="3.2M+">0</span><small class="stat-label">Domains Registered</small></div>
+  <div class="stat reveal"><span class="stat-num" data-target="99.9" data-format="99.9%">0</span><small class="stat-label">Uptime SLA</small></div>
+  <div class="stat reveal"><span class="stat-num" data-target="180">0</span><small class="stat-label">Countries Served</small></div>
+  <div class="stat reveal"><span class="stat-num" data-format="24/7">24/7</span><small class="stat-label">Live Support</small></div>
 </div>
 
+<!-- RESULTS -->
 <div id="ra"><div id="rl" class="rl"></div><div id="rc"></div>
-  <div id="nc-disclosure" style="background:rgba(249,115,22,.07);border:1px solid rgba(249,115,22,.18);border-radius:8px;padding:.75rem 1rem;margin-top:1.5rem;font-size:.75rem;color:var(--muted);text-align:center">
-    &#128279; <strong style="color:var(--orange)">Affiliate Disclosure:</strong> DomHub partners with <a href="https://www.namecheap.com/" target="_blank" rel="noopener" style="color:var(--orange)">Namecheap</a> to provide real domain registration. Clicking &ldquo;Register Now&rdquo; opens Namecheap&rsquo;s secure checkout. DomHub may earn a small commission at no extra cost to you.
-  </div>
+  <div class="disc">&#128279; <strong style="color:var(--orange)">Affiliate Disclosure:</strong> DomHub partners with <a href="https://www.namecheap.com/" target="_blank" rel="noopener">Namecheap</a> for real domain registration. Clicking &ldquo;Register Now&rdquo; takes you to Namecheap&rsquo;s secure checkout. DomHub may earn a small commission at no extra cost to you.</div>
 </div>
 
-<div id="f" style="padding:4rem 2rem;max-width:1100px;margin:0 auto">
-  <h2 class="section-title">Everything in One Hub</h2>
-  <p class="section-sub">DomHub gives you all the tools to find, register and manage domains like a pro.</p>
+<!-- FEATURES -->
+<div id="f">
+<section class="features">
+  <div class="section-header reveal">
+    <h2 class="section-title">Everything in One Hub</h2>
+    <p class="section-sub">All the tools you need to find, register, and manage your domain &mdash; in one place.</p>
+  </div>
   <div class="feat-grid">
-    <div class="feat"><div class="feat-icon">&#128274;</div><h3>Free SSL Certificate</h3><p>Every domain comes with a free SSL/TLS certificate. Automatic renewal &mdash; zero configuration needed.</p></div>
-    <div class="feat"><div class="feat-icon">&#128737;</div><h3>WHOIS Privacy Protection</h3><p>Keep your personal info off the public internet. Included free with all domains registered at DomHub.</p></div>
-    <div class="feat"><div class="feat-icon">&#9889;</div><h3>Instant Activation</h3><p>Your domain goes live within minutes. Our automated system handles propagation instantly.</p></div>
-    <div class="feat"><div class="feat-icon">&#127757;</div><h3>Global Anycast DNS</h3><p>Blazing-fast DNS resolution from 200+ nodes worldwide. Your site loads fast, everywhere.</p></div>
-    <div class="feat"><div class="feat-icon">&#129302;</div><h3>AI Name Generator</h3><p>Enter a keyword and our AI suggests dozens of creative, brandable, available domain names.</p></div>
-    <div class="feat"><div class="feat-icon">&#128260;</div><h3>One-Click Transfer</h3><p>Move your domains from any registrar to DomHub in minutes. We handle all the paperwork.</p></div>
+    <div class="feat reveal" onclick="openPanel('supportPanel')"><span class="feat-icon">&#128274;</span><h3>Free SSL Certificate</h3><p>Every domain comes with a free SSL/TLS certificate. Auto-renewal &mdash; zero configuration needed.</p><span class="feat-link">Learn more &#8594;</span></div>
+    <div class="feat reveal" onclick="openPanel('supportPanel')"><span class="feat-icon">&#128737;</span><h3>WHOIS Privacy Protection</h3><p>Keep your personal info off the public internet. Included free with all registered domains.</p><span class="feat-link">Learn more &#8594;</span></div>
+    <div class="feat reveal" onclick="openPanel('supportPanel')"><span class="feat-icon">&#9889;</span><h3>Instant Activation</h3><p>Your domain goes live within minutes. Our automated system handles propagation instantly.</p><span class="feat-link">Learn more &#8594;</span></div>
+    <div class="feat reveal" onclick="openPanel('supportPanel')"><span class="feat-icon">&#127757;</span><h3>Global Anycast DNS</h3><p>Blazing-fast DNS resolution from 200+ nodes worldwide. Your site loads fast, everywhere.</p><span class="feat-link">Learn more &#8594;</span></div>
+    <div class="feat reveal" onclick="setMode('gen');scrollTo('s');scrollSearch()"><span class="feat-icon">&#129302;</span><h3>AI Name Generator</h3><p>Enter a keyword and our AI suggests dozens of creative, brandable, available domain names.</p><span class="feat-link">Try it now &#8594;</span></div>
+    <div class="feat reveal" onclick="openPanel('supportPanel')"><span class="feat-icon">&#128260;</span><h3>One-Click Transfer</h3><p>Move your domains from any registrar to DomHub in minutes. We handle all the paperwork.</p><span class="feat-link">Start transfer &#8594;</span></div>
   </div>
-</div>
+</section></div>
 
-<div id="p" class="pricing">
+<!-- PRICING -->
+<div id="p"><section class="pricing">
   <div class="pricing-inner">
-    <h2 class="section-title">Transparent Pricing</h2>
-    <p class="section-sub">No hidden fees. No surprises. Real domains registered via Namecheap.</p>
+    <div class="section-header reveal"><h2 class="section-title">Transparent Pricing</h2><p class="section-sub">No hidden fees. Real domains registered via Namecheap&rsquo;s secure platform.</p></div>
     <table class="pricing-table">
       <thead><tr><th>Extension</th><th>1st Year</th><th>Renewal</th><th>Transfer</th><th>Privacy</th><th>SSL</th><th></th></tr></thead>
-      <tbody>
-        <tr><td><span class="tld-name">.com</span><span class="badge badge-pop">POPULAR</span></td><td>$9.99</td><td>$13.99</td><td>$8.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.com" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.net</span></td><td>$11.99</td><td>$14.99</td><td>$10.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.net" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.org</span></td><td>$9.99</td><td>$12.99</td><td>$8.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.org" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.io</span><span class="badge badge-trend">TRENDING</span></td><td>$39.99</td><td>$44.99</td><td>$35.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.io" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.ai</span><span class="badge badge-hot">HOT</span></td><td>$79.99</td><td>$89.99</td><td>$75.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.ai" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.app</span><span class="badge badge-new">NEW</span></td><td>$14.99</td><td>$17.99</td><td>$13.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.app" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.dev</span></td><td>$12.99</td><td>$15.99</td><td>$11.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.dev" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-        <tr><td><span class="tld-name">.tech</span><span class="badge badge-new">NEW</span></td><td>$7.99</td><td>$49.99</td><td>$7.99</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="nc-register-link" href="https://www.namecheap.com/domains/registration/results/?domain=yourdomain.tech" target="_blank" rel="noopener">Register &#8594;</a></td></tr>
-      </tbody>
+      <tbody id="pricingBody"></tbody>
     </table>
   </div>
-</div>
+</section></div>
 
-<section class="cta">
-  <h2>Ready to Claim Your Domain?</h2>
-  <p>Real registrations via Namecheap. No setup fees. Just click and register.</p>
-  <button class="btn btn-primary" style="padding:.875rem 2rem;font-size:1rem" onclick="scrollSearch()">Search Your Domain Now</button>
+<!-- CTA -->
+<section class="cta-section reveal">
+  <div style="position:relative">
+    <h2>Ready to Claim Your Domain?</h2>
+    <p>Real registrations. Transparent pricing. Powered by Namecheap.</p>
+    <button class="btn btn-primary" style="padding:.9rem 2.25rem;font-size:1rem" onclick="scrollSearch()">Search Your Domain Now &rarr;</button>
+  </div>
 </section>
 
-<div class="affiliate-bar">
-  &#128279; <strong>Powered by Namecheap</strong> &mdash; DomHub is an affiliate partner. <a href="https://www.namecheap.com/affiliates/" target="_blank" rel="noopener">Learn about our affiliate program</a>
-</div>
+<div class="aff-bar">&#128279; <strong>Powered by Namecheap</strong> &mdash; DomHub is an affiliate partner. <a href="https://www.namecheap.com/affiliates/" target="_blank" rel="noopener">Join our affiliate program</a></div>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
         <div class="logo" onclick="scrollTop()"><div class="logo-icon">D</div>DomHub</div>
-        <p>Your trusted domain search platform &mdash; powered by Namecheap&rsquo;s global infrastructure.</p>
+        <p>Your trusted domain search platform &mdash; powered by Namecheap&rsquo;s global infrastructure since 2001.</p>
       </div>
       <div class="footer-col"><h4>Domains</h4><ul>
-        <li><a onclick="scrollSearch()">Domain Search</a></li>
-        <li><a onclick="setMode('gen');scrollSearch()">Name Generator</a></li>
-        <li><a href="https://www.namecheap.com/domains/transfer/" target="_blank" rel="noopener">Transfer Domain</a></li>
-        <li><a href="https://www.namecheap.com/domains/bulk-registration/" target="_blank" rel="noopener">Bulk Registration</a></li>
+        <li><a onclick="scrollSearch()">&#128269; Domain Search</a></li>
+        <li><a onclick="setMode('gen');scrollSearch()">&#129302; Name Generator</a></li>
+        <li><a href="https://www.namecheap.com/domains/transfer/" target="_blank" rel="noopener">&#8652; Transfer Domain</a></li>
+        <li><a href="https://www.namecheap.com/domains/bulk-registration/" target="_blank" rel="noopener">&#128200; Bulk Registration</a></li>
       </ul></div>
       <div class="footer-col"><h4>Services</h4><ul>
-        <li><a href="https://www.namecheap.com/hosting/shared/" target="_blank" rel="noopener">Web Hosting</a></li>
-        <li><a href="https://www.namecheap.com/security/ssl-certificates/" target="_blank" rel="noopener">SSL Certificates</a></li>
-        <li><a href="https://www.namecheap.com/hosting/email/" target="_blank" rel="noopener">Email Hosting</a></li>
-        <li><a href="https://www.namecheap.com/domains/freedns/" target="_blank" rel="noopener">DNS Manager</a></li>
+        <li><a href="https://www.namecheap.com/hosting/shared/" target="_blank" rel="noopener">&#127760; Web Hosting</a></li>
+        <li><a href="https://www.namecheap.com/security/ssl-certificates/" target="_blank" rel="noopener">&#128274; SSL Certificates</a></li>
+        <li><a href="https://www.namecheap.com/hosting/email/" target="_blank" rel="noopener">&#128139; Email Hosting</a></li>
+        <li><a href="https://www.namecheap.com/domains/freedns/" target="_blank" rel="noopener">&#128293; DNS Manager</a></li>
       </ul></div>
       <div class="footer-col"><h4>Company</h4><ul>
-        <li><a onclick="document.getElementById('f').scrollIntoView({behavior:'smooth'})">About DomHub</a></li>
-        <li><a href="https://www.namecheap.com/affiliates/" target="_blank" rel="noopener">Affiliate Program</a></li>
-        <li><a href="https://www.namecheap.com/support/" target="_blank" rel="noopener">Support</a></li>
-        <li><a onclick="showToast('Privacy: DomHub collects no personal data. Domains are registered via Namecheap.','#8b949e')">Privacy Policy</a></li>
+        <li><a onclick="openPanel('aboutPanel')">&#128640; About DomHub</a></li>
+        <li><a onclick="openPanel('blogPanel')">&#128214; Blog & Resources</a></li>
+        <li><a onclick="openPanel('supportPanel')">&#128101; Support Center</a></li>
+        <li><a onclick="showPrivacy()">&#128274; Privacy Policy</a></li>
       </ul></div>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 DomHub. All rights reserved. Domain registration powered by <a href="https://www.namecheap.com/" target="_blank" rel="noopener" style="color:var(--orange)">Namecheap</a>.</p>
-      <p><a onclick="openModal('signin')" style="color:var(--muted)">Sign In</a> &nbsp;&bull;&nbsp; <a onclick="openModal('signup')" style="color:var(--muted)">Register</a></p>
+      <p><a onclick="openModal('authModal','in')" style="color:var(--muted)">Sign In</a> &nbsp;&bull;&nbsp; <a onclick="openModal('authModal','up')" style="color:var(--muted)">Register</a></p>
     </div>
   </div>
 </footer>
 
-<div id="cb2">
-  <div>&#128722; <strong id="cc">0</strong> domain(s) &nbsp; Total: $<strong id="ct">0.00</strong></div>
-  <div id="cn"></div>
-  <button id="clr">Clear</button>
-  <button id="co">Register via Namecheap &#8594;</button>
-</div>
+<!-- CART BAR -->
+<div id="cb2"><div>&#128722; <strong id="cc">0</strong> domain(s) &nbsp; $<strong id="ct">0.00</strong>/yr</div><div id="cn"></div><button id="clr">&#10005; Clear</button><button id="co">View Cart &rarr;</button></div>
 <script>
-// ============================================================
-// DOMHUB — Namecheap Affiliate Integration
-// IMPORTANT: Replace YOUR_AFFILIATE_ID with your real ID from
-// https://www.namecheap.com/affiliates/ (Impact platform)
-// ============================================================
-var AFFILIATE_ID = 'YOUR_AFFILIATE_ID';
+// =============================================
+// DOMHUB — Full Interactive Version
+// Replace YOUR_AFFILIATE_ID after signing up at
+// namecheap.com/affiliates (Impact platform)
+// =============================================
+var AFF_ID = 'YOUR_AFFILIATE_ID';
 
-function ncLink(domain) {
-  var url = 'https://www.namecheap.com/domains/registration/results/?domain=' + encodeURIComponent(domain);
-  if (AFFILIATE_ID && AFFILIATE_ID !== 'YOUR_AFFILIATE_ID') url += '&affcode=' + encodeURIComponent(AFFILIATE_ID);
+// Pricing data
+var TLDS = [
+  {tld:'.com',p:9.99,r:13.99,t:8.99,badge:'pop',label:'POPULAR'},
+  {tld:'.net',p:11.99,r:14.99,t:10.99},
+  {tld:'.org',p:9.99,r:12.99,t:8.99},
+  {tld:'.io',p:39.99,r:44.99,t:35.99,badge:'trend',label:'TRENDING'},
+  {tld:'.co',p:24.99,r:29.99,t:22.99},
+  {tld:'.ai',p:79.99,r:89.99,t:75.99,badge:'hot',label:'HOT'},
+  {tld:'.app',p:14.99,r:17.99,t:13.99,badge:'new',label:'NEW'},
+  {tld:'.dev',p:12.99,r:15.99,t:11.99},
+  {tld:'.store',p:4.99,r:39.99,t:4.99},
+  {tld:'.online',p:4.99,r:39.99,t:4.99},
+  {tld:'.tech',p:7.99,r:49.99,t:7.99,badge:'new',label:'NEW'},
+  {tld:'.shop',p:4.99,r:34.99,t:4.99}
+];
+var PRICES = {};
+TLDS.forEach(function(d){PRICES[d.tld]=d.p;});
+var TAKEN = ['google','facebook','amazon','apple','microsoft','twitter','instagram','youtube','netflix','spotify','github'];
+var PFX = ['get','try','use','go','my','the','best','pro','smart','fast','ez','new','top','one','next','find','open'];
+var SFX = ['ly','ify','hub','lab','base','hq','app','now','plus','pro','kit','box','ai','cloud','sync','ware','fy'];
+var ADJ = ['bright','swift','clear','bold','sharp','solid','fresh','pure','prime','quick','easy','smart','super','neo','zen'];
+var FTLDS = ['.com','.io','.app','.co','.dev','.ai'];
+var mode = 'search', cart = [];
+
+// Build pricing table
+(function(){
+  var tb = document.getElementById('pricingBody');
+  if(!tb) return;
+  TLDS.forEach(function(d){
+    var badge = d.badge ? '<span class="badge badge-'+d.badge+'">'+d.label+'</span>' : '';
+    var regUrl = ncLink('yourdomain'+d.tld);
+    tb.innerHTML += '<tr><td><span class="tld-name">'+d.tld+'</span>'+badge+'</td><td>$'+d.p+'</td><td>$'+d.r+'</td><td>$'+d.t+'</td><td class="free-tag">Free</td><td class="free-tag">Free</td><td><a class="reg-link" href="'+regUrl+'" target="_blank" rel="noopener">Register &#8594;</a></td></tr>';
+  });
+})();
+
+// Affiliate link builder
+function ncLink(domain){
+  var url = 'https://www.namecheap.com/domains/registration/results/?domain='+encodeURIComponent(domain);
+  if(AFF_ID && AFF_ID !== 'YOUR_AFFILIATE_ID') url += '&affcode='+encodeURIComponent(AFF_ID);
   return url;
 }
 
-// UI helpers
+// Scroll helpers
 function scrollTop(){window.scrollTo({top:0,behavior:'smooth'});}
 function scrollSearch(){document.getElementById('inp').focus();scrollTop();}
-function showToast(msg,color){
-  var t=document.getElementById('toast');
-  t.textContent=msg;t.style.background=color||'#22c55e';
-  t.style.color=(color==='#58a6ff'||color==='#8b949e')?'#fff':'#000';
-  t.classList.add('show');clearTimeout(window._tt);
-  window._tt=setTimeout(function(){t.classList.remove('show');},3500);
-}
-function openModal(tab){
-  switchTab(tab||'signin');
-  document.getElementById('authModal').classList.add('open');
-  setTimeout(function(){var f=document.getElementById(tab==='signup'?'suName':'siEmail');if(f)f.focus();},100);
-}
-function closeModal(){document.getElementById('authModal').classList.remove('open');}
-function switchTab(tab){
-  var si=tab==='signin';
-  document.getElementById('tabSI').classList.toggle('on',si);
-  document.getElementById('tabSU').classList.toggle('on',!si);
-  document.getElementById('siform').style.display=si?'block':'none';
-  document.getElementById('suform').style.display=si?'none':'block';
-  document.getElementById('modalTitle').textContent=si?'Welcome back':'Create your account';
-  document.getElementById('modalSub').textContent=si?'Sign in to manage your domains':'Start registering domains for free';
-  document.getElementById('modalFooter').innerHTML=si?'New to DomHub? <a onclick="switchTab('signup')">Create an account</a>':'Already have an account? <a onclick="switchTab('signin')">Sign in</a>';
-}
-function handleSignIn(){
-  var e=document.getElementById('siEmail').value.trim(),p=document.getElementById('siPass').value;
-  if(!e||!p){showToast('Please fill in all fields','#f85149');return;}
-  if(!e.includes('@')){showToast('Enter a valid email','#f85149');return;}
-  closeModal();showToast('Welcome back, '+e.split('@')[0]+'!');
-}
-function handleSignUp(){
-  var n=document.getElementById('suName').value.trim(),e=document.getElementById('suEmail').value.trim(),p=document.getElementById('suPass').value;
-  if(!n||!e||!p){showToast('Please fill in all fields','#f85149');return;}
-  if(!e.includes('@')){showToast('Enter a valid email','#f85149');return;}
-  if(p.length<8){showToast('Password must be 8+ characters','#f85149');return;}
-  closeModal();showToast('Welcome to DomHub, '+n.split(' ')[0]+'! 🎉');
-}
-function socialAuth(p){closeModal();showToast('Connecting to '+p+'... (Demo)','#58a6ff');}
-function forgotPw(){closeModal();showToast('Password reset link sent! (Demo)','#58a6ff');}
+function scrollTo(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 
-// Domain search & generator
-var mode='search',cart=[];
-var tlds=['.com','.net','.org','.io','.co','.app','.dev','.store','.online','.ai','.shop','.tech'];
-var prices={'.com':9.99,'.net':11.99,'.org':9.99,'.io':39.99,'.co':24.99,'.app':14.99,'.dev':12.99,'.store':4.99,'.online':4.99,'.ai':79.99,'.shop':4.99,'.tech':7.99};
-var renewals={'.com':13.99,'.net':14.99,'.org':12.99,'.io':44.99,'.co':29.99,'.app':17.99,'.dev':15.99,'.store':39.99,'.online':39.99,'.ai':89.99,'.shop':34.99,'.tech':49.99};
-var taken=['google','facebook','amazon','apple','microsoft','twitter','instagram','youtube','netflix','spotify','github'];
-var pfx=['get','try','use','go','my','the','best','pro','smart','fast','ez','new','top','one','next','find','open'];
-var sfx=['ly','ify','hub','lab','base','hq','app','now','plus','pro','kit','box','ai','cloud','sync','ware','fy'];
-var adj=['bright','swift','clear','bold','sharp','solid','fresh','pure','prime','quick','easy','smart','super','neo','zen'];
-var ftlds=['.com','.io','.app','.co','.dev','.ai'];
+// Toast
+function toast(msg, color){
+  var t = document.getElementById('toast');
+  var icon = color === '#f85149' ? '&#10060; ' : color === '#58a6ff' ? '&#8505; ' : '&#10003; ';
+  t.innerHTML = icon + msg;
+  t.style.background = color || '#22c55e';
+  t.style.color = (color === '#58a6ff' || color === '#8b949e' || color === '#f97316') ? '#fff' : '#000';
+  t.classList.add('show');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(function(){t.classList.remove('show');}, 3500);
+}
 
+// Modal
+function openModal(id, tab){
+  if(tab) mSwitch(tab);
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){
+    var f = id === 'authModal' ? document.getElementById(tab === 'up' ? 'suName' : 'siEmail') : null;
+    if(f) f.focus();
+  }, 120);
+}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function openPanel(id){
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePanel(id){
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Auth tab switch
+function mSwitch(tab){
+  var si = tab === 'in';
+  document.getElementById('mTabSI').classList.toggle('on', si);
+  document.getElementById('mTabSU').classList.toggle('on', !si);
+  document.getElementById('siForm').style.display = si ? 'block' : 'none';
+  document.getElementById('suForm').style.display = si ? 'none' : 'block';
+  document.getElementById('mTitle').textContent = si ? 'Welcome back' : 'Create your account';
+  document.getElementById('mSub').textContent = si ? 'Sign in to your DomHub account' : 'Start registering domains for free';
+  document.getElementById('mFoot').innerHTML = si ? 'New to DomHub? <a onclick="mSwitch('up')">Create an account</a>' : 'Already have an account? <a onclick="mSwitch('in')">Sign in</a>';
+}
+function mSignIn(){
+  var e = document.getElementById('siEmail').value.trim();
+  var p = document.getElementById('siPass').value;
+  if(!e||!p){toast('Please fill in all fields','#f85149');return;}
+  if(!e.includes('@')){toast('Enter a valid email address','#f85149');return;}
+  closeModal('authModal');
+  toast('Welcome back, '+e.split('@')[0]+'! &#127881;');
+}
+function mSignUp(){
+  var n = document.getElementById('suName').value.trim();
+  var e = document.getElementById('suEmail').value.trim();
+  var p = document.getElementById('suPass').value;
+  if(!n||!e||!p){toast('Please fill in all fields','#f85149');return;}
+  if(!e.includes('@')){toast('Enter a valid email address','#f85149');return;}
+  if(p.length < 8){toast('Password must be at least 8 characters','#f85149');return;}
+  closeModal('authModal');
+  toast('Welcome to DomHub, '+n.split(' ')[0]+'! &#127881;');
+}
+function mSocial(p){closeModal('authModal');toast('Connecting to '+p+'... (Demo mode)','#58a6ff');}
+function mForgot(){closeModal('authModal');toast('Password reset link sent to your email','#58a6ff');}
+
+// Privacy policy toast
+function showPrivacy(){
+  toast('Privacy: DomHub collects no personal data. All registrations are handled securely by Namecheap.','#8b949e');
+}
+
+// FAQ toggle
+function toggleFaq(el){
+  var item = el.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(function(i){i.classList.remove('open');});
+  if(!wasOpen) item.classList.add('open');
+}
+
+// Domain mode
 function setMode(m){
-  mode=m;
-  document.getElementById('ts').classList.toggle('on',m==='search');
-  document.getElementById('tg').classList.toggle('on',m==='gen');
-  document.getElementById('inp').placeholder=m==='search'?'Search a domain (e.g. mybrand.com)...':'Enter keywords to generate names...';
+  mode = m;
+  document.getElementById('ts').classList.toggle('on', m === 'search');
+  document.getElementById('tg').classList.toggle('on', m === 'gen');
+  document.getElementById('inp').placeholder = m === 'search' ? 'Search a domain (e.g. mybrand.com)...' : 'Enter keywords to generate names...';
 }
+
+// Search & Generate
 function go(){
-  var q=document.getElementById('inp').value.trim();if(!q)return;
-  document.getElementById('ra').style.display='block';
-  if(mode==='search')doSearch(q);else doGen(q);
+  var q = document.getElementById('inp').value.trim();
+  if(!q) return;
+  document.getElementById('ra').style.display = 'block';
+  mode === 'search' ? doSearch(q) : doGen(q);
   document.getElementById('ra').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function clean(q){return q.toLowerCase().replace(/[^a-z0-9-]/g,'').replace(/\..*$/,'');}
-function isTaken(n){return taken.some(function(t){return n===t||n.indexOf(t)===0;});}
+function isTaken(n){return TAKEN.some(function(t){return n===t||n.indexOf(t)===0;});}
 
 function doSearch(q){
-  var base=clean(q);var rc=document.getElementById('rc');
-  document.getElementById('rl').textContent='Results for "'+base+'"';
-  rc.innerHTML='';
-  tlds.forEach(function(tld,i){
-    var full=base+tld;
-    var tk=isTaken(base)&&(tld==='.com'||tld==='.net'||tld==='.org'||tld==='.io');
-    var p=prices[tld],r=renewals[tld];
-    var card=document.createElement('div');
-    card.className='dcard'+(i===0&&!tk?' pop':'');
-    if(i===0&&!tk){var pb=document.createElement('div');pb.className='pop-badge';pb.textContent='Most Popular';card.appendChild(pb);}
-    // Domain name + availability
-    var left=document.createElement('div');
-    left.innerHTML='<div class="dname">'+base+'<span class="dtld">'+tld+'</span></div>'+'<span class="dtag '+(tk?'tag-tk':'tag-av')+'">'+(tk?'Taken':'Available')+'</span>';
-    // Price
-    var mid=document.createElement('div');
-    if(!tk){mid.innerHTML='<div class="dprice">$'+p+'/yr</div><div class="drenew">Renews $'+r+'/yr</div>';}
-    // Namecheap badge
-    var badge=document.createElement('div');
-    if(!tk){badge.innerHTML='<div class="nc-badge">✓ Powered by Namecheap</div>';}
-    // Register button
-    var btnWrap=document.createElement('div');
+  var base = clean(q);
+  var rc = document.getElementById('rc');
+  document.getElementById('rl').textContent = 'Results for "' + base + '"';
+  rc.innerHTML = '';
+  TLDS.forEach(function(d, i){
+    var full = base + d.tld;
+    var tk = isTaken(base) && ['.com','.net','.org','.io'].includes(d.tld);
+    var card = document.createElement('div');
+    card.className = 'dcard' + (i === 0 && !tk ? ' pop' : '');
+    card.style.animation = 'fadeInUp ' + (.15 + i * .05) + 's ease';
+    if(i === 0 && !tk){var pb = document.createElement('div');pb.className='pop-badge';pb.textContent='Most Popular';card.appendChild(pb);}
+    var left = document.createElement('div');
+    left.className = 'dname-wrap';
+    left.innerHTML = '<div class="dname">' + base + '<span class="dtld">' + d.tld + '</span></div><span class="dtag ' + (tk?'tag-tk':'tag-av') + '">' + (tk?'Taken':'Available') + '</span>';
+    var mid = document.createElement('div');
+    if(!tk) mid.innerHTML = '<div class="dprice">$' + d.p + '/yr</div><div class="drenew">Renews $' + d.r + '/yr</div>';
+    var btn = document.createElement('div');
     if(tk){
-      btnWrap.innerHTML='<button class="nc-btn-disabled">Unavailable</button>';
+      btn.innerHTML = '<button class="nc-btn-dis">Unavailable</button>';
     } else {
-      var link=document.createElement('a');
-      link.className='nc-btn';
-      link.href=ncLink(full);
-      link.target='_blank';
-      link.rel='noopener noreferrer';
-      link.innerHTML='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Register Now';
-      btnWrap.appendChild(link);
-      // Track clicks in cart display
-      link.addEventListener('click',function(){
-        if(!cart.find(function(c){return c.domain===full;})){
-          cart.push({domain:full,price:p});refreshCart();
-        }
+      var a = document.createElement('a');
+      a.className = 'nc-btn';
+      a.href = ncLink(full);
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Register Now';
+      a.addEventListener('click', function(){
+        if(!cart.find(function(c){return c.domain===full;})){cart.push({domain:full,price:d.p});refreshCart();}
       });
+      btn.appendChild(a);
     }
-    card.appendChild(left);card.appendChild(mid);card.appendChild(badge);card.appendChild(btnWrap);
+    card.appendChild(left);card.appendChild(mid);card.appendChild(btn);
     rc.appendChild(card);
   });
 }
 
 function doGen(q){
-  var w=q.toLowerCase().split(/\s+/).map(function(x){return x.replace(/[^a-z]/g,'');});
-  var base=w[0]||'domain',sec=w[1]||'';var seen={},names=[];
+  var w = q.toLowerCase().split(/\s+/).map(function(x){return x.replace(/[^a-z]/g,'');});
+  var base = w[0]||'domain', sec = w[1]||'';
+  var seen = {}, names = [];
   function add(n){if(n&&n.length>=3&&n.length<=18&&!seen[n]){seen[n]=true;names.push(n);}}
   add(base);if(sec){add(base+sec);add(sec+base);}
-  pfx.forEach(function(p){add(p+base);if(sec)add(p+base+sec);});
-  sfx.forEach(function(s){add(base+s);if(sec)add(base+sec+s);});
-  adj.forEach(function(a){add(a+base);if(sec)add(a+base+sec);});
-  names=names.filter(function(n){return !isTaken(n);}).slice(0,36);
-  var rc=document.getElementById('rc');
-  document.getElementById('rl').textContent='AI-generated ideas for "'+q+'" — click any to register via Namecheap';
-  rc.innerHTML='';
-  var grid=document.createElement('div');grid.className='gen-grid';
-  names.forEach(function(name,i){
-    var tld=ftlds[i%ftlds.length];var full=name+tld;var p=prices[tld];
-    var a=document.createElement('a');
-    a.className='gcard';a.href=ncLink(full);a.target='_blank';a.rel='noopener noreferrer';
-    a.innerHTML='<div class="gname">'+name+'<span class="gtld">'+tld+'</span></div><div class="gprice">$'+p+'/yr</div><div class="gnc">→ Register via Namecheap</div>';
-    a.addEventListener('click',function(){
-      if(!cart.find(function(c){return c.domain===full;})){cart.push({domain:full,price:p});refreshCart();}
+  PFX.forEach(function(p){add(p+base);if(sec)add(p+base+sec);});
+  SFX.forEach(function(s){add(base+s);if(sec)add(base+sec+s);});
+  ADJ.forEach(function(a){add(a+base);if(sec)add(a+base+sec);});
+  names = names.filter(function(n){return !isTaken(n);}).slice(0,36);
+  var rc = document.getElementById('rc');
+  document.getElementById('rl').textContent = 'AI-generated ideas for "' + q + '" — click any to register';
+  rc.innerHTML = '';
+  var grid = document.createElement('div');
+  grid.className = 'gen-grid';
+  names.forEach(function(name, i){
+    var tld = FTLDS[i % FTLDS.length];
+    var full = name + tld;
+    var a = document.createElement('a');
+    a.className = 'gcard';
+    a.href = ncLink(full);
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.animation = 'fadeInUp ' + (.1 + i * .03) + 's ease';
+    a.innerHTML = '<div class="gname">' + name + '<span class="gtld">' + tld + '</span></div><div class="gprice">$' + PRICES[tld] + '/yr</div><div class="gnc">→ Register via Namecheap</div>';
+    a.addEventListener('click', function(){
+      if(!cart.find(function(c){return c.domain===full;})){cart.push({domain:full,price:PRICES[tld]});refreshCart();}
     });
     grid.appendChild(a);
   });
   rc.appendChild(grid);
 }
 
+// Cart
 function refreshCart(){
-  var bar=document.getElementById('cb2');
-  if(cart.length===0){bar.classList.remove('show');return;}
+  var bar = document.getElementById('cb2');
+  if(cart.length === 0){bar.classList.remove('show');return;}
   bar.classList.add('show');
-  document.getElementById('cc').textContent=cart.length;
-  document.getElementById('cn').textContent=cart.map(function(c){return c.domain;}).join(' · ');
-  document.getElementById('ct').textContent=cart.reduce(function(s,c){return s+c.price;},0).toFixed(2);
+  document.getElementById('cc').textContent = cart.length;
+  document.getElementById('cn').textContent = cart.slice(0,3).map(function(c){return c.domain;}).join(' · ') + (cart.length > 3 ? ' +' + (cart.length-3) + ' more' : '');
+  document.getElementById('ct').textContent = cart.reduce(function(s,c){return s+c.price;},0).toFixed(2);
 }
 function clearCart(){
-  cart=[];refreshCart();
+  cart = [];
+  refreshCart();
+  toast('Cart cleared');
+}
+function openCheckout(){
+  if(!cart.length){toast('Add domains first!','#f85149');return;}
+  var items = document.getElementById('coItems');
+  items.innerHTML = '';
+  cart.forEach(function(c, i){
+    var div = document.createElement('div');
+    div.className = 'checkout-item';
+    div.innerHTML = '<span class="checkout-item-domain">'+c.domain+'</span><span style="display:flex;align-items:center;gap:.5rem"><span class="checkout-item-price">$'+c.price+'/yr</span><button class="checkout-remove" onclick="removeCart('+i+')" title="Remove">&#10005;</button></span>';
+    items.appendChild(div);
+  });
+  document.getElementById('coTotal').textContent = '$' + cart.reduce(function(s,c){return s+c.price;},0).toFixed(2);
+  document.getElementById('coNcBtn').onclick = function(){
+    var first = cart[0];
+    window.open(ncLink(first.domain), '_blank', 'noopener');
+  };
+  openModal('coModal');
+}
+function removeCart(i){
+  cart.splice(i,1);
+  refreshCart();
+  if(cart.length === 0){closeModal('coModal');return;}
+  openCheckout();
 }
 
-function init(){
-  document.getElementById('goBtn').addEventListener('click',go);
-  document.getElementById('inp').addEventListener('keydown',function(e){if(e.key==='Enter')go();});
-  document.getElementById('ts').addEventListener('click',function(){setMode('search');});
-  document.getElementById('tg').addEventListener('click',function(){setMode('gen');});
-  document.getElementById('co').addEventListener('click',function(){
-    if(!cart.length)return;
-    // Open Namecheap for the first domain in cart
-    window.open(ncLink(cart[0].domain),'_blank','noopener');
+// Scroll reveal
+function checkReveal(){
+  document.querySelectorAll('.reveal:not(.visible)').forEach(function(el){
+    var rect = el.getBoundingClientRect();
+    if(rect.top < window.innerHeight - 60) el.classList.add('visible');
   });
-  document.getElementById('clr').addEventListener('click',clearCart);
-  document.getElementById('modalClose').addEventListener('click',closeModal);
-  document.getElementById('authModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
-  document.getElementById('siPass').addEventListener('keydown',function(e){if(e.key==='Enter')handleSignIn();});
-  document.getElementById('suPass').addEventListener('keydown',function(e){if(e.key==='Enter')handleSignUp();});
 }
-if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}
+window.addEventListener('scroll', checkReveal, {passive:true});
+
+// Stat counter animation
+function animateStats(){
+  document.querySelectorAll('.stat-num[data-target]').forEach(function(el){
+    var fmt = el.getAttribute('data-format');
+    if(fmt){el.textContent = fmt;return;}
+    var target = parseFloat(el.getAttribute('data-target'));
+    var duration = 1200;
+    var start = performance.now();
+    function update(now){
+      var p = Math.min((now - start) / duration, 1);
+      var val = Math.floor(p * target);
+      el.textContent = target >= 1000 ? val.toLocaleString() + '+' : val + (target % 1 !== 0 ? '.0%' : '+');
+      if(p < 1) requestAnimationFrame(update);
+      else el.textContent = target >= 1000 ? (target/1000000 >= 1 ? (target/1000000).toFixed(1)+'M+' : target.toLocaleString()+'+') : target + '+';
+    }
+    requestAnimationFrame(update);
+  });
+}
+
+// Intersection observer for stats
+var statsObserver = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){animateStats();statsObserver.disconnect();}});
+},{threshold:.3});
+var statsEl = document.querySelector('.stats');
+if(statsEl) statsObserver.observe(statsEl);
+
+// Init
+document.addEventListener('DOMContentLoaded', function(){
+  document.getElementById('goBtn').addEventListener('click', go);
+  document.getElementById('inp').addEventListener('keydown', function(e){if(e.key==='Enter')go();});
+  document.getElementById('ts').addEventListener('click', function(){setMode('search');});
+  document.getElementById('tg').addEventListener('click', function(){setMode('gen');});
+  document.getElementById('co').addEventListener('click', openCheckout);
+  document.getElementById('clr').addEventListener('click', clearCart);
+  document.getElementById('modalClose').addEventListener('click', function(){closeModal('authModal');});
+  document.getElementById('siPass').addEventListener('keydown', function(e){if(e.key==='Enter')mSignIn();});
+  document.getElementById('suPass').addEventListener('keydown', function(e){if(e.key==='Enter')mSignUp();});
+
+  // Close modals on overlay click
+  ['authModal','coModal','blogPanel','aboutPanel','supportPanel'].forEach(function(id){
+    document.getElementById(id).addEventListener('click', function(e){
+      if(e.target === this){
+        this.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){
+      ['authModal','coModal','blogPanel','aboutPanel','supportPanel'].forEach(function(id){
+        document.getElementById(id).classList.remove('open');
+      });
+      document.body.style.overflow = '';
+    }
+  });
+
+  checkReveal();
+});
 </script>
 </body>
 </html>
